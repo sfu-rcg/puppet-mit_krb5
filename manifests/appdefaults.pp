@@ -10,6 +10,28 @@
 #
 # Copyright 2013 Patrick Mooney.
 #
-define mit_krb5::appdefaults() {
-  fail('PLACEHOLDER: Not yet implemented')
-}
+
+/* learning about concat module and Puppet 3 at the same time
+   so you almost certainly should not use this */
+
+define mit_krb5::appdefaults(
+  $app            = $title,
+  $content        = {} ,
+  ) {
+
+  include mit_krb5
+  
+  validate_hash($content)
+  $_settings = $content
+
+  ensure_resource('concat::fragment', 'mit_krb5::appdefaults_header', {
+    target  => $mit_krb5::krb5_conf_path,
+    order   => '30appdefaults_header',
+    content => "[appdefaults]\n",
+  })
+    concat::fragment { "mit_krb5::appdefaults::${app}":
+      target  => $mit_krb5::krb5_conf_path,
+      order   => "31appdefault::${app}",
+      content => template('mit_krb5/appdefaults.erb'),
+    }
+  }
