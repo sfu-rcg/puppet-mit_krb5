@@ -1,6 +1,7 @@
 
 class mit_krb5::domain_realms(
   $domains = {},
-  $realm = '',
+  $defaults = {},
   ) {
-     create_resources(domain_real
+  create_resources(domain_realm, $domains, $defaults)
+}
