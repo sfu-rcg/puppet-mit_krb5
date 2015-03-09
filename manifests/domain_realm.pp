@@ -50,11 +50,3 @@ define mit_krb5::domain_realm(
     }
   }
 }
-
-
-class mit_krb5::domain_realms(
-  $domains = {},
-  $realm = '',
-  ) {
-     create_resources(domain_realm, $domains, $realm)
-}
