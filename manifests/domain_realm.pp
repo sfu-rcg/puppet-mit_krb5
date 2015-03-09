@@ -29,6 +29,7 @@
 #
 # Copyright 2013 Patrick Mooney.
 #
+
 define mit_krb5::domain_realm(
   $domains,
   $realm = $title,
@@ -48,4 +49,12 @@ define mit_krb5::domain_realm(
       content => template('mit_krb5/domain_realm.erb'),
     }
   }
+}
+
+
+class mit_krb5::domain_realms(
+  $domains = {},
+  $realm = '',
+  ) {
+     create_resources(domain_realm, $domains, $realm)
 }
