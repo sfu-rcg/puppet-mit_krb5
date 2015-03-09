@@ -251,8 +251,8 @@ class mit_krb5(
     $krb5_conf_mode
   )
 
-  contains mit_krb5::domain_realms
-  contains mit_krb5::realms
+  contain mit_krb5::domain_realms
+  contain mit_krb5::realms
 
   # Boolean-type parameters are not type-validated at this time.
   # This allows true/false/'yes'/'no'/'1'/0' to be used.
