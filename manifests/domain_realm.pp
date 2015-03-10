@@ -29,6 +29,7 @@
 #
 # Copyright 2013 Patrick Mooney.
 #
+
 define mit_krb5::domain_realm(
   $domains,
   $realm = $title,
