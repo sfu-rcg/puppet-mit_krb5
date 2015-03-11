@@ -1,5 +1,5 @@
 
-class mit_krb5::appdefaultss(
+class mit_krb5::appdefaults(
   $apps = {},
   $defaults = {},
   ) {
