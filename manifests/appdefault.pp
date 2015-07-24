@@ -27,7 +27,7 @@ define mit_krb5::appdefault(
   ensure_resource('concat::fragment', 'mit_krb5::appdefault_header', {
     target  => $mit_krb5::krb5_conf_path,
     order   => '30appdefault_header',
-    content => "[appdefault]\n",
+    content => "[appdefaults]\n",
   })
     concat::fragment { "mit_krb5::appdefault::${app}":
       target  => $mit_krb5::krb5_conf_path,
