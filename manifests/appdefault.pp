@@ -31,7 +31,7 @@ define mit_krb5::appdefault(
   })
     concat::fragment { "mit_krb5::appdefault::${app}":
       target  => $mit_krb5::krb5_conf_path,
-      order   => "31appdefault::${app}",
+      order   => "31appdefault_${app}",
       content => template('mit_krb5/appdefault.erb'),
     }
   }
