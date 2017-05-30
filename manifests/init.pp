@@ -23,6 +23,11 @@
 #   This relation identifies the supported list of session key encryption types
 #   that should be requested by the client. (Required type: array)
 #
+# [*default_ccache_name*]
+#   This relation specifies the pathname of the default credential cache. The 
+#   default is DEFCCNAME. This relation is subject to parameter expansion.
+#   (see krb5.conf docs)
+#
 # [*permitted_enctypes*]
 #   This relation identifies the permitted list of session key encryption
 #   types. (Required type: array)
@@ -197,6 +202,7 @@ class mit_krb5(
   $default_keytab_name      = '',
   $default_tgs_enctypes     = [],
   $default_tkt_enctypes     = [],
+  $default_ccache_name      = '',
   $permitted_enctypes       = [],
   $allow_weak_crypto        = '',
   $clockskew                = '',
@@ -232,7 +238,7 @@ class mit_krb5(
   validate_string(
     $default_realm,
     $default_keytab_name,
-    $clockskew,
+    $default_ccache_name,
     $k5login_directory,
     $kdc_timesync,
     $kdc_req_checksum_type,
