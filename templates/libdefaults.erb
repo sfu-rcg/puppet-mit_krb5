@@ -46,7 +46,6 @@ fields.each do |key|
 end
 -%>
 [libdefaults]
-    default_ccache_name = /home/%{username}/krb5cc
 <% if not output.empty? -%>
     <%= output.join("\n    ") %>
 <% end %>
