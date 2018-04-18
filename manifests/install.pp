@@ -10,14 +10,15 @@
 #
 # Copyright 2013 Patrick Mooney.
 #
-class mit_krb5::install($packages = undef) {
-  if $packages {
-    if is_array($packages) {
-      $install = flatten($packages)
-    } else {
-      $install = [$packages]
-    }
+class mit_krb5::install(
+  Array[String] $packages   = [],
+) {
+
+if length($packages) > 0 {
+    notify{'debug: NOT using default krb5 client packages': }
+    $install = [$packages]
   } else {
+    notify{'debug: Using default krb5 client packages': }
     # OS-specific defaults
     $install = $::osfamily ? {
       'Archlinux' => ['krb5'],

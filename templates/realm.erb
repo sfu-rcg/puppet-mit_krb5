@@ -20,7 +20,7 @@ fields.each do |k|
       value.each do |v|
         output.push("#{k} = #{v}")
       end
-    elsif not value.empty?
+    elsif !value
       output.push("#{k} = #{value}")
     end
   end
@@ -29,4 +29,3 @@ end
     <%= @title %> = {
         <%= output.join("\n        ") %>
     }
-

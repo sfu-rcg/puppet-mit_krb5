@@ -192,65 +192,57 @@
 #
 # Copyright 2013 Patrick Mooney.
 #
-class mit_krb5(
-  $default_realm            = '',
-  $default_keytab_name      = '',
-  $default_tgs_enctypes     = [],
-  $default_tkt_enctypes     = [],
-  $permitted_enctypes       = [],
-  $allow_weak_crypto        = '',
-  $clockskew                = '',
-  $ignore_acceptor_hostname = '',
-  $k5login_authoritative    = '',
-  $k5login_directory        = '',
-  $kdc_timesync             = '',
-  $kdc_req_checksum_type    = '',
-  $ap_req_checksum_type     = '',
-  $safe_checksum_type       = '',
-  $preferred_preauth_types  = '',
-  $ccache_type              = '',
-  $dns_lookup_kdc           = '',
-  $dns_lookup_realm         = '',
-  $dns_fallback             = '',
-  $realm_try_domains        = '',
-  $extra_addresses          = [],
-  $udp_preference_limit     = '',
-  $verify_ap_req_nofail     = '',
-  $ticket_lifetime          = '',
-  $renew_lifetime           = '',
-  $noaddresses              = '',
-  $forwardable              = '',
-  $proxiable                = '',
-  $rdns                     = '',
-  $plugin_base_dir          = '',
-  $krb5_conf_path           = '/etc/krb5.conf',
-  $krb5_conf_owner          = 'root',
-  $krb5_conf_group          = 'root',
-  $krb5_conf_mode           = '0444',
-) {
-  # SECTION: Parameter validation {
-  validate_string(
-    $default_realm,
-    $default_keytab_name,
-    $clockskew,
-    $k5login_directory,
-    $kdc_timesync,
-    $kdc_req_checksum_type,
-    $ap_req_checksum_type,
-    $safe_checksum_type,
-    $preferred_preauth_types,
-    $ccache_type,
-    $realm_try_domains,
-    $udp_preference_limit,
-    $ticket_lifetime,
-    $renew_lifetime,
-    $plugin_base_dir,
-    $krb5_conf_path,
-    $krb5_conf_owner,
-    $krb5_conf_group,
-    $krb5_conf_mode
-  )
 
+class mit_krb5(
+  # Puppet 4/5 wants default values declared here, which is fine.
+  #
+  # However, this module writes out lots of options in /etc/krb5.conf,
+  # and having the default values here means they ALL get written to krb5.conf.
+  #
+  # That would also be fine except I don't know what the default values on a
+  # given system are. The documentation is inconsistent or nonexistent.
+  #
+  # Please uncomment the parameters you need.
+  #
+  # with information from
+  # https://web.mit.edu/kerberos/krb5-1.12/doc/admin/conf_files/krb5_conf.html
+  # https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.1.0/com.ibm.zos.v2r1.euvfa00/euv2b3__libdefaults__section.htm
+
+  String         $default_realm              = '',
+  # String         $default_keytab_name        = '/etc/krb5.keytab',
+  # Array[String]  $default_tgs_enctypes       = [],
+  # Array[String]  $default_tkt_enctypes       = [],
+  Array[String]  $permitted_enctypes         = [],
+  Boolean        $allow_weak_crypto          = false,
+  # Integer        $clockskew                  = 300,
+  # String         $ignore_acceptor_hostname   = '',
+  # Boolean        $k5login_authoritative      = true,
+  # String         $k5login_directory          = '',
+  # Integer        $kdc_timesync               = 1,
+  # Integer        $kdc_req_checksum_type      = 2,
+  # Integer        $ap_req_checksum_type       = 7,
+  # Integer        $safe_checksum_type         = 8,
+  # Array[Integer] $preferred_preauth_types    = [17, 16, 15, 14],
+  # Integer        $ccache_type                = 4,
+  # Boolean        $dns_lookup_kdc             = false,
+  # Boolean        $dns_lookup_realm           = false,
+  # Boolean        $dns_fallback               = false,
+  # Integer        $realm_try_domains          = 0,
+  # Array[String]  $extra_addresses            = [],
+  # Integer        $udp_preference_limit       = 1,
+  # Boolean        $verify_ap_req_nofail       = false,
+  # String         $ticket_lifetime            = '0',
+  String         $renew_lifetime             = '0',
+  # Boolean        $noaddresses                = true,
+  # Boolean        $forwardable                = true,
+  # Boolean        $proxiable                  = true,
+  # Boolean        $rdns                       = true,
+  # String         $plugin_base_dir            = '',
+  String         $krb5_conf_path             = '/etc/krb5.conf',
+  String         $krb5_conf_owner            = 'root',
+  String         $krb5_conf_group            = 'root',
+  String         $krb5_conf_mode             = '0444',
+) {
   contain mit_krb5::domain_realms
   contain mit_krb5::realms
 
@@ -268,9 +260,9 @@ class mit_krb5(
   anchor { 'mit_krb5::begin': }
   include mit_krb5::install
   concat { $krb5_conf_path:
-    owner  => $krb5_conf_owner,
-    group  => $krb5_conf_group,
-    mode   => $krb5_conf_mode,
+    owner => $krb5_conf_owner,
+    group => $krb5_conf_group,
+    mode  => $krb5_conf_mode,
   }
   concat::fragment { 'mit_krb5::libdefaults':
     target  => $krb5_conf_path,
@@ -281,7 +273,6 @@ class mit_krb5(
   # END Resource creation }
 
   # SECTION: Resource ordering {
-  Anchor['mit_krb5::begin'] -> Class['mit_krb5::install'] ->
-    Concat[$krb5_conf_path] -> Anchor['mit_krb5::end']
+    Anchor['mit_krb5::begin'] -> Class['mit_krb5::install'] -> Concat[$krb5_conf_path] -> Anchor['mit_krb5::end']
   # END Resource ordering }
 }

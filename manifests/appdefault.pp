@@ -11,17 +11,16 @@
 # Copyright 2013 Patrick Mooney.
 #
 
-/* learning about concat module and Puppet 3 at the same time
-   so you almost certainly should not use this */
+# learning about concat module and Puppet 3 at the same time
+#   so you almost certainly should not use this
 
 define mit_krb5::appdefault(
-  $app            = $title,
-  $content        = {} ,
-  ) {
+  String $app          = $title,
+  Hash $content        = {} ,
+) {
 
   include mit_krb5
 
-  validate_hash($content)
   $_settings = $content
 
   ensure_resource('concat::fragment', 'mit_krb5::appdefault_header', {

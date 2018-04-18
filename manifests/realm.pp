@@ -72,14 +72,14 @@
 # Copyright 2013 Patrick Mooney.
 #
 define mit_krb5::realm(
-  $kdc                 = '',
-  $admin_server        = '',
-  $database_module     = '',
-  $default_domain      = '',
-  $v4_instance_convert = '',
-  $v4_realm            = '',
-  $auth_to_local_names = '',
-  $auth_to_local       = '',
+  Array[String] $kdc                  = [],
+  Array[String] $admin_server         = [],
+  Hash $database_module               = {},
+  String $default_domain              = '',
+  Boolean $v4_instance_convert        = false,
+  String $v4_realm                    = '',
+  Array[String] $auth_to_local_names  = [],
+  Array[String] $auth_to_local        = [],
 ) {
   include mit_krb5
   ensure_resource('concat::fragment', 'mit_krb5::realm_header', {

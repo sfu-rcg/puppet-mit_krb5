@@ -39,10 +39,10 @@
 # Copyright 2013 Patrick Mooney.
 #
 class mit_krb5::logging(
-  $default      = '',
-  $admin_server = '',
-  $kdc          = '',
-  $defaults     = '',
+  String $default      = '',
+  String $admin_server = '',
+  String $kdc          = '',
+  String $defaults     = '',
 ) {
   include mit_krb5
   concat::fragment { 'mit_krb5::logging':

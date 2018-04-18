@@ -31,11 +31,9 @@
 #
 
 define mit_krb5::domain_realm(
-  $domains,
-  $realm = $title,
+  Array[String] $domains   = [],
+  String $realm            = $title,
 ) {
-  validate_array($domains)
-  validate_string($realm)
   $fragment_order = "21realm_${realm}_${title}"
   include mit_krb5
   if count($domains) > 0 {
