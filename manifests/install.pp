@@ -15,10 +15,8 @@ class mit_krb5::install(
 ) {
 
 if length($packages) > 0 {
-    notify{'debug: NOT using default krb5 client packages': }
     $install = [$packages]
   } else {
-    notify{'debug: Using default krb5 client packages': }
     # OS-specific defaults
     $install = $::osfamily ? {
       'Archlinux' => ['krb5'],
